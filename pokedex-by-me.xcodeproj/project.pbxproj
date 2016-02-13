@@ -58,9 +58,9 @@
 		6ADDF4A51C6F56F400C69443 /* pokedex-by-me */ = {
 			isa = PBXGroup;
 			children = (
+				6ADDF4BA1C6F5C6F00C69443 /* Model */,
 				6ADDF4BC1C6F5C7A00C69443 /* View */,
 				6ADDF4BB1C6F5C7400C69443 /* Controller */,
-				6ADDF4BA1C6F5C6F00C69443 /* Model */,
 				6ADDF4A61C6F56F400C69443 /* AppDelegate.swift */,
 				6ADDF4A81C6F56F400C69443 /* ViewController.swift */,
 				6ADDF4B81C6F5B9F00C69443 /* pokemon.csv */,
