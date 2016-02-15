@@ -78,6 +78,7 @@ class PokemonDetailVC: UIViewController {
     }
     
     
+    
     @IBAction func nextEvoBtnPressed(sender: AnyObject) {
         
         let nextPokemon = Pokemon(name: pokemon.nextEvolutionTxt, pokedexId: Int(pokemon.nextEvolutionId)!)
