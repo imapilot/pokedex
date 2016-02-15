@@ -22,6 +22,7 @@ class PokemonDetailVC: UIViewController {
     @IBOutlet weak var evoLbl: UILabel!
     @IBOutlet weak var currentEvoImg: UIImageView!
     @IBOutlet weak var nextEvoImg: UIImageView!
+    @IBOutlet weak var nextEvoBtn: UIButton!
 
     var pokemon: Pokemon!
 
@@ -37,13 +38,15 @@ class PokemonDetailVC: UIViewController {
         // using custom clouser to delay the assignment of values until the web request has been completed
         pokemon.downloadPokemonDetails { () -> () in
             // make sure COMPLETED() is being called in the pokemon class
-            self.updateUI()
+            
+            self.updateUI()     // Custom func in the VC model
         }
         
         // Do any additional setup after loading the view.
         
     }
     
+    // custom func only called with COMPLETED() sent in model -- see viewDidLoad
     func updateUI() {
         descriptionLbl.text = pokemon.description
         typeLbl.text = pokemon.type
@@ -56,7 +59,9 @@ class PokemonDetailVC: UIViewController {
         if pokemon.nextEvolutionId == "" {
             evoLbl.text = "No Evolutions"
             nextEvoImg.hidden = true
+            nextEvoBtn.hidden = true
         } else {
+            nextEvoBtn.hidden = false
             nextEvoImg.hidden = false
             nextEvoImg.image = UIImage(named: pokemon.nextEvolutionId)
             var str = "Next Evolution: \(pokemon.nextEvolutionTxt)"
@@ -71,4 +76,23 @@ class PokemonDetailVC: UIViewController {
     @IBAction func backBtnPressed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    
+    @IBAction func nextEvoBtnPressed(sender: AnyObject) {
+        
+        let nextPokemon = Pokemon(name: pokemon.nextEvolutionTxt, pokedexId: Int(pokemon.nextEvolutionId)!)
+        
+        nextPokemon.downloadPokemonDetails { () -> () in
+            let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+            let pokeDetailVC =
+                storyboard.instantiateViewControllerWithIdentifier("PokemonDetailVC") as! PokemonDetailVC
+            
+            pokeDetailVC.pokemon = nextPokemon
+            pokeDetailVC.modalTransitionStyle = .CrossDissolve
+            
+            self.presentViewController(pokeDetailVC, animated: true, completion: nil)
+        }
+    }
+
+    
 }
