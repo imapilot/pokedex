@@ -23,6 +23,8 @@ class Pokemon {
     private var _nextEvolutionLvl: String!
     private var _pokemonUrl: String!
     
+    private var _moves = [String]()
+    
     var name: String {
         get {
             return _name
@@ -105,6 +107,12 @@ class Pokemon {
             return _nextEvolutionLvl
         }
     }
+    
+    var moves: [String] {
+        get {
+            return _moves.sort(<)
+        }
+    }
 
 
     init(name: String, pokedexId: Int){
@@ -149,6 +157,16 @@ class Pokemon {
                     }
                 }
                 
+                if let moves = dict["moves"] as? [Dictionary<String,AnyObject>] where moves.count > 0
+                {
+                    for var x = 0; x < moves.count; x++ {
+                        if let name = moves[x]["name"] as? String {
+                            self._moves.append(name)
+                        }
+                    }
+                }
+
+                
                 if let descArr = dict["descriptions"] as? [Dictionary<String,AnyObject>] where descArr.count > 0 {
                     if let url = descArr[0]["resource_uri"] as? String {
                         let nsurl = NSURL(string: "\(URL_BASE)\(url)")!
@@ -191,11 +209,14 @@ class Pokemon {
                         }
                     }
                 }
+
+                
                 //print(self._weight)
                 //print(self._height)
                 //print(self._defense)
                 //print(self._attack)
                 //print(self._type)
+                //print(self._moves)
                 
             }
         
